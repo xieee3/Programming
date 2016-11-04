@@ -8,6 +8,7 @@
 #include <conio.h>
 #include <windows.h>
 #define StringLength 6
+#define Base 2
 
 //***
 // Because getch() is not a standard function. getch is replaced by _getch.
@@ -30,14 +31,22 @@ TCHAR ReadCharWithoutEcho() {
 int main()
 {
     int Count;
+    int StrLength;
+    int Sum;
+    int Value;
+    int ShiftOffset;
     char Ptr[StringLength];
+    Sum = 0;
+    Value = 0;
     Count = 0;
-    Ptr[Count] = ReadCharWithoutEcho();
+    ShiftOffset = 0;
+    //Ptr[Count] = ReadCharWithoutEcho();
     while (Count < StringLength)
     {
-        Ptr[Count] = getchar();
+        Ptr[Count] = ReadCharWithoutEcho();
         if (Ptr[Count] == '0' || Ptr[Count] == '1')
         {
+            printf("%c", Ptr[Count]);
             Count++;
         }
 
@@ -45,6 +54,13 @@ int main()
             break;
     }
     Ptr[Count] = '\0';
-    printf("\n%s %d", Ptr, strlen(Ptr));
+    StrLength = strlen(Ptr);
+    for (Count = StrLength - 1; Count >= 0; Count--)
+    {
+        Value = (Ptr[Count] - '0') << ShiftOffset;
+        ShiftOffset++;
+        Sum = Sum + Value;
+    }
+    printf("\n%s %d", Ptr, Sum);
     return 0;
 }
